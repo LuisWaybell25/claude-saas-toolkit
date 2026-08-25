@@ -1,0 +1,141 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  ================================================================
+  TOKENS DEL DESIGN SYSTEM
+  ================================================================
+  Formato HSL "pelado" (sin hsl()) a propósito: así Tailwind puede
+  aplicar opacidad — bg-primary/10 funciona, con hsl() no.
+
+  Para tematizar un producto nuevo: cambia los valores de ESTE archivo.
+  No toques los nombres de los tokens — son el contrato compartido entre
+  todos los SaaS de la plataforma.
+  ================================================================
+*/
+
+@layer base {
+  :root {
+    /* Superficies */
+    --background: 210 20% 98%;
+    --foreground: 215 25% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 15%;
+
+    /* Primario — petróleo. Deliberadamente NO índigo/violeta: ese es el
+       acento por defecto de casi todo dashboard. Cambiar por producto. */
+    --primary: 184 68% 26%;
+    --primary-foreground: 180 30% 97%;
+
+    /* Secundario y superficies apagadas */
+    --secondary: 210 16% 93%;
+    --secondary-foreground: 215 25% 20%;
+
+    --muted: 210 16% 95%;
+    --muted-foreground: 215 12% 45%;
+
+    --accent: 184 45% 92%;
+    --accent-foreground: 184 68% 20%;
+
+    /* Semánticos de estado */
+    --success: 152 58% 34%;
+    --success-foreground: 150 30% 97%;
+
+    --warning: 32 92% 44%;
+    --warning-foreground: 40 30% 99%;
+
+    --destructive: 0 68% 47%;
+    --destructive-foreground: 0 20% 98%;
+
+    --info: 205 78% 42%;
+    --info-foreground: 205 30% 98%;
+
+    /* Bordes, campos y foco */
+    --border: 214 18% 88%;
+    --input: 214 18% 86%;
+    --ring: 184 68% 30%;
+
+    --radius: 0.625rem;
+  }
+
+  .dark {
+    --background: 215 28% 9%;
+    --foreground: 210 18% 93%;
+
+    --card: 215 25% 12%;
+    --card-foreground: 210 18% 93%;
+
+    --popover: 215 25% 12%;
+    --popover-foreground: 210 18% 93%;
+
+    /* En oscuro el primario sube en luminosidad para mantener contraste
+       contra el fondo, no solo se "invierte". */
+    --primary: 184 62% 46%;
+    --primary-foreground: 195 40% 8%;
+
+    --secondary: 215 20% 18%;
+    --secondary-foreground: 210 18% 93%;
+
+    --muted: 215 20% 16%;
+    --muted-foreground: 215 12% 62%;
+
+    --accent: 184 40% 20%;
+    --accent-foreground: 184 60% 82%;
+
+    --success: 152 50% 45%;
+    --success-foreground: 150 30% 8%;
+
+    --warning: 36 88% 55%;
+    --warning-foreground: 40 40% 10%;
+
+    --destructive: 0 62% 55%;
+    --destructive-foreground: 0 20% 98%;
+
+    --info: 205 70% 55%;
+    --info-foreground: 205 40% 10%;
+
+    --border: 215 18% 22%;
+    --input: 215 18% 24%;
+    --ring: 184 62% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04";
+  }
+
+  /* Cifras alineadas en columnas: en un cotizador o un panel financiero,
+     que los números cuadren verticalmente es funcional, no estético. */
+  .tabular,
+  table td,
+  table th {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Foco visible y consistente en todo el sistema — accesibilidad de base,
+     no un extra. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

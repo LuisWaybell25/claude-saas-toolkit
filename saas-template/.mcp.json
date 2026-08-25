@@ -1,0 +1,34 @@
+{
+  "$comment": [
+    "Configuración de MCP compartida con el equipo (este archivo SÍ se commitea).",
+    "Quien clone el repo tiene los mismos servidores disponibles al abrir Claude Code.",
+    "Autenticación: se hace por OAuth en el navegador la primera vez ('/mcp' en Claude Code).",
+    "NUNCA pongas tokens ni llaves en este archivo.",
+    "",
+    "SEGURIDAD — leer antes de cambiar nada:",
+    "  - supabase está en read_only y apuntando a un proyecto de DESARROLLO a propósito.",
+    "    Supabase describe su MCP como herramienta de desarrollo y pruebas, no de producción.",
+    "  - Las filas y logs de una base de datos pueden contener inyección de prompts (texto",
+    "    escrito por un usuario que intenta darle instrucciones a Claude). Modo lectura y",
+    "    proyecto de desarrollo son la mitigación.",
+    "  - Revisa siempre el SQL o la acción propuesta antes de aprobar una llamada con efectos."
+  ],
+  "mcpServers": {
+    "supabase": {
+      "type": "http",
+      "url": "https://mcp.supabase.com/mcp?project_ref=REEMPLAZAR_CON_PROJECT_REF_DE_DESARROLLO&read_only=true"
+    },
+    "vercel": {
+      "type": "http",
+      "url": "https://mcp.vercel.com"
+    },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/"
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"]
+    }
+  }
+}

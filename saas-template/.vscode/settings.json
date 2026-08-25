@@ -1,0 +1,31 @@
+{
+  // Formatear y arreglar lint al guardar: el mismo resultado que exige
+  // el pre-commit, pero sin esperar al commit.
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+
+  // Usar la versión de TypeScript del proyecto, no la que trae VS Code —
+  // evita que un error de tipos aparezca en CI pero no en el editor.
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+
+  // Autocompletado de clases de Tailwind dentro de strings comunes.
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ],
+
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
+
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/coverage": true,
+    "**/playwright-report": true
+  }
+}

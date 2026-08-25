@@ -1,0 +1,15 @@
+node_modules/
+.next/
+.env
+.env.local
+*.log
+.DS_Store
+coverage/
+playwright-report/
+test-results/
+next-env.d.ts
+tsconfig.tsbuildinfo
+
+# .mcp.json SÍ se commitea (config compartida de MCPs, sin secretos).
+# .claude/settings.local.json es para overrides personales, no se comparte.
+.claude/settings.local.json

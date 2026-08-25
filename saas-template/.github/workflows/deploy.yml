@@ -1,0 +1,48 @@
+name: Deploy
+
+# El despliegue de la app lo hace Vercel automáticamente vía su integración
+# de Git (merge a main → producción). Este workflow NO despliega — se encarga
+# de lo único que Vercel no hace: aplicar las migraciones de base de datos.
+#
+# Por qué las migraciones van aquí y no en el build de Vercel:
+#   - El build corre también en cada preview de PR; no quieres que un PR
+#     experimental migre la base de datos de producción.
+#   - Un paso explícito y visible es más fácil de auditar y de revertir que
+#     una migración escondida dentro de un comando de build.
+#
+# REQUISITO: la rama `main` debe estar protegida exigiendo que el workflow
+# "CI" pase antes de permitir el merge. Sin eso, un merge con tests rojos
+# migraría la base de datos y desplegaría código roto.
+# GitHub → Settings → Branches → Add rule → Require status checks: CI
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  # Si se hacen dos merges seguidos, evita que dos migraciones corran a la vez.
+  group: deploy-migrations
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    # Requiere aprobación manual si configuras el environment "production"
+    # con reviewers en GitHub → Settings → Environments.
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - run: npm ci
+
+      - name: Aplicar migraciones pendientes
+        run: npx prisma migrate deploy
+        env:
+          # Usa la connection string DIRECTA (puerto 5432), no la del pooler:
+          # las migraciones necesitan una conexión de sesión completa.
+          DATABASE_URL: ${{ secrets.DIRECT_DATABASE_URL }}

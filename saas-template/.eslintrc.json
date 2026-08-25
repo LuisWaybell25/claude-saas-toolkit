@@ -1,0 +1,79 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "import"
+  ],
+  "rules": {
+    "//---- ERRORES: bugs o riesgos reales, bloquean el commit y el merge ----": "off",
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ],
+    "//---- ADVERTENCIAS: estilo y hábitos. Avisan, no bloquean. ----": "off",
+    "//    import/order se auto-arregla al guardar y en el pre-commit.": "off",
+    "import/order": [
+      "warn",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          [
+            "parent",
+            "sibling",
+            "index"
+          ]
+        ],
+        "newlines-between": "always"
+      }
+    ],
+    "no-console": [
+      "warn",
+      {
+        "allow": [
+          "warn",
+          "error"
+        ]
+      }
+    ],
+    "react-hooks/exhaustive-deps": "warn",
+    "//---- DESIGN SYSTEM: colores solo por token, nunca literales ----": "off",
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "Literal[value=/(bg|text|border|ring|fill|stroke|from|via|to|shadow|outline|decoration|divide|accent|caret|placeholder)-\\[#[0-9a-fA-F]{3,8}\\]/]",
+        "message": "Color literal detectado. Usa un token del design system (bg-primary, text-muted-foreground...). Si el valor no existe, agrégalo primero a app/globals.css y tailwind.config.ts. Ver docs/design-system.md."
+      },
+      {
+        "selector": "TemplateElement[value.raw=/(bg|text|border|ring|fill|stroke|from|via|to|shadow|outline|decoration|divide|accent|caret|placeholder)-\\[#[0-9a-fA-F]{3,8}\\]/]",
+        "message": "Color literal detectado. Usa un token del design system (bg-primary, text-muted-foreground...). Si el valor no existe, agrégalo primero a app/globals.css y tailwind.config.ts. Ver docs/design-system.md."
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "prisma/seed.ts",
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "e2e/**",
+        "*.config.ts",
+        "*.config.js"
+      ],
+      "rules": {
+        "no-console": "off",
+        "@typescript-eslint/no-explicit-any": "off"
+      }
+    }
+  ]
+}
